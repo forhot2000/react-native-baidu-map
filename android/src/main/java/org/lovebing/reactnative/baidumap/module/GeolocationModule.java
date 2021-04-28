@@ -62,13 +62,19 @@ public class GeolocationModule extends BaseModule
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationMode.Hight_Accuracy);
         option.setCoorType(coorType);
-        option.setIsNeedAddress(true);
-        option.setIsNeedAltitude(true);
-        option.setIsNeedLocationDescribe(true);
+        // 设置是否需要地址信息，默认为无地址。 在设备获取gps位置的时候，对应的地址信息不会马上返回，因为gps是直接在本地产生，
+        // 但地址信息需要从云端获取，是个异步过程，开发者在接收定位返回数据的时候，建议不要立即stop定位sdk以等待数据回调
+        // option.setIsNeedAddress(true);
+        // 设置是否需要返回海拔高度信息，可以在BDLocation.getAltitude()中得到数据，GPS定位结果中默认返回，默认值Double.MIN_VALUE
+        // option.setIsNeedAltitude(true);
+        // 设置是否需要返回位置语义化信息，可以在BDLocation.getLocationDescribe()中得到数据，ex:"在天安门附近"， 可以用作地址信息的补充
+        // option.setIsNeedLocationDescribe(true);
         option.setOpenGps(true);
+        option.setOpenAutoNotifyMode();
         locationClient = new LocationClient(context.getApplicationContext());
         locationClient.setLocOption(option);
         Log.i("locationClient", "locationClient");
+        Log.i("locationClient", String.format("version: %s", locationClient.getVersion()));
         locationClient.registerLocationListener(this);
     }
     /**
