@@ -69,8 +69,12 @@ public class GeolocationModule extends BaseModule
         // option.setIsNeedAltitude(true);
         // 设置是否需要返回位置语义化信息，可以在BDLocation.getLocationDescribe()中得到数据，ex:"在天安门附近"， 可以用作地址信息的补充
         // option.setIsNeedLocationDescribe(true);
+        // 设置是否打开gps进行定位
         option.setOpenGps(true);
-        option.setOpenAutoNotifyMode();
+        // 设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
+        // option.setOpenAutoNotifyMode(10000, 0, LOC_SENSITIVITY_HIGHT);
+        // 设置扫描间隔，单位是毫秒 当<1000(1s)时，定时定位无效
+        option.setScanSpan(10000);
         locationClient = new LocationClient(context.getApplicationContext());
         locationClient.setLocOption(option);
         Log.i("locationClient", "locationClient");
